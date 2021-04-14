@@ -16,6 +16,7 @@ astro dev init
 ## Starting Airflow on Local
 
 ```sh
+cd astro
 astro dev start
 ```
 
@@ -27,6 +28,7 @@ Error: command 'docker build -t astro_e24539/airflow:latest failed: failed to ex
 
 Try this:
 ```sh
+cd astro
 DOCKER_BUILDKIT=0 astro dev start
 ```
 
