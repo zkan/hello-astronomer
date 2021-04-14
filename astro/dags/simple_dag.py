@@ -6,8 +6,9 @@ from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
 
 
-def _downloading_data(**kwargs):
+def _downloading_data(ds, **kwargs):
     print("Just a test")
+    print(ds)
     print(kwargs)
 
 
