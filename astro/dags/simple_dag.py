@@ -21,8 +21,10 @@ def _downloading_data(my_param, ds, **kwargs):
     return 42
 
 
-def _checking_data():
+def _checking_data(ti):
     print("Checking data")
+    my_xcom = ti.xcom_pull(key="return_value", task_ids=["downloading_data"])
+    print(my_xcom)
 
 
 default_args = {
@@ -70,6 +72,6 @@ with DAG(dag_id="simple_dag",
         bash_command="exit 0",
     )
 
-    # downloading_data >> waiting_for_data >> processing_data
+    downloading_data >> [checking_data, waiting_for_data] >> processing_data
     # chain(downloading_data, waiting_for_data, processing_data)
-    cross_downstream([downloading_data, checking_data], [waiting_for_data, processing_data])
+    # cross_downstream([downloading_data, checking_data], [waiting_for_data, processing_data])
