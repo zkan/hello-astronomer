@@ -9,7 +9,7 @@ from airflow.sensors.filesystem import FileSensor
 from airflow.utils.dates import days_ago
 
 
-def _downloading_data(my_param, ds, **kwargs):
+def _downloading_data(my_param, ds, ti, **kwargs):
     print("Just a test")
     print(my_param)
     print(ds)
@@ -18,6 +18,8 @@ def _downloading_data(my_param, ds, **kwargs):
     with open("/tmp/my_file.txt", "w") as f:
         f.write("my_data")
 
+    ti.xcom_push(key="my_key", value=43)
+
     return 42
 
 
@@ -25,6 +27,8 @@ def _checking_data(ti):
     print("Checking data")
     my_xcom = ti.xcom_pull(key="return_value", task_ids=["downloading_data"])
     print(my_xcom)
+    my_key = ti.xcom_pull(key="my_key", task_ids=["downloading_data"])
+    print(my_key)
 
 
 default_args = {
