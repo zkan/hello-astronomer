@@ -5,3 +5,10 @@
 ```sh
 brew install astronomer/tap/astro
 ```
+
+## Initializing Airflow Project
+
+```
+mkdir astro && cd astro
+astro dev init
+```
