@@ -31,8 +31,13 @@ def _checking_data(ti):
     print(my_key)
 
 
+def _failure(context):
+    print("On callback failure")
+    print(context)
+
+
 default_args = {
-    "retry": 5,
+    "retries": 5,
     "retry_delay": timedelta(minutes=5),
     "email_on_failure": True,
     "email_on_retry": True,
@@ -77,6 +82,7 @@ with DAG(dag_id="simple_dag",
     processing_data = BashOperator(
         task_id="processing_data",
         bash_command="exit 0",
+        on_failure_callback=_failure,
     )
 
     downloading_data >> [checking_data, waiting_for_data] >> processing_data
