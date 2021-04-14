@@ -57,3 +57,5 @@ with DAG(dag_id="simple_dag",
         task_id="processing_data",
         bash_command="exit 0",
     )
+
+    downloading_data >> waiting_for_data >> processing_data
