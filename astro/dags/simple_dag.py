@@ -2,11 +2,17 @@ from datetime import timedelta
 
 from airflow import DAG
 from airflow.operators.dummy import DummyOperator
+from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
 
+
+def _downloading_data():
+    print("Just a test")
+
+
 default_args = {
-    'retry': 5,
-    'retry_delay': timedelta(minutes=5)
+    "retry": 5,
+    "retry_delay": timedelta(minutes=5)
 }
 with DAG(dag_id="simple_dag",
          default_args=default_args,
@@ -24,4 +30,9 @@ with DAG(dag_id="simple_dag",
 
     task_3 = DummyOperator(
         task_id="task_3",
+    )
+
+    downloading_data = PythonOperator(
+        task_id="downloading_data",
+        python_callable=_downloading_data,
     )
