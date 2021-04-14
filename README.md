@@ -8,7 +8,13 @@ brew install astronomer/tap/astro
 
 ## Initializing Airflow Project
 
-```
+```sh
 mkdir astro && cd astro
 astro dev init
+```
+
+## Starting Airflow on Local
+
+```sh
+astro dev start
 ```
