@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from airflow import DAG
+from airflow.models.baseoperator import chain
 from airflow.operators.dummy import DummyOperator
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
@@ -58,4 +59,5 @@ with DAG(dag_id="simple_dag",
         bash_command="exit 0",
     )
 
-    downloading_data >> waiting_for_data >> processing_data
+    # downloading_data >> waiting_for_data >> processing_data
+    chain(downloading_data, waiting_for_data, processing_data)
