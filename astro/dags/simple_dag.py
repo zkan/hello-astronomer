@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from airflow import DAG
 from airflow.operators.dummy import DummyOperator
+from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 from airflow.sensors.filesystem import FileSensor
 from airflow.utils.dates import days_ago
@@ -50,4 +51,9 @@ with DAG(dag_id="simple_dag",
         fs_conn_id="fs_default",
         filepath="my_data.txt",
         poke_interval=5,
+    )
+
+    processing_data = BashOperator(
+        task_id="processing_data",
+        bash_command="exit 0",
     )
