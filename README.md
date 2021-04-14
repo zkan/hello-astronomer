@@ -1,2 +1,1 @@
-# hello-astronomer
-Hello, Astronomer! - The Enterprise Framework for Apache Airflow
+# Hello, Astronomer! - The Enterprise Framework for Apache Airflow
