@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from airflow import DAG
-from airflow.models.baseoperator import chain
+from airflow.models.baseoperator import chain, cross_downstream
 from airflow.operators.dummy import DummyOperator
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
@@ -17,6 +17,10 @@ def _downloading_data(my_param, ds, **kwargs):
 
     with open("/tmp/my_file.txt", "w") as f:
         f.write("my_data")
+
+
+def _checking_data():
+    print("Checking data")
 
 
 default_args = {
@@ -47,6 +51,11 @@ with DAG(dag_id="simple_dag",
         op_kwargs={"my_param": 42},
     )
 
+    checking_data = PythonOperator(
+        task_id="checking_data",
+        python_callable=_checking_data,
+    )
+
     waiting_for_data = FileSensor(
         task_id="waiting_for_data",
         fs_conn_id="fs_default",
@@ -60,4 +69,5 @@ with DAG(dag_id="simple_dag",
     )
 
     # downloading_data >> waiting_for_data >> processing_data
-    chain(downloading_data, waiting_for_data, processing_data)
+    # chain(downloading_data, waiting_for_data, processing_data)
+    cross_downstream([downloading_data, checking_data], [waiting_for_data, processing_data])
