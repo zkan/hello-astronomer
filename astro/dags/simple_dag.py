@@ -18,6 +18,8 @@ def _downloading_data(my_param, ds, **kwargs):
     with open("/tmp/my_file.txt", "w") as f:
         f.write("my_data")
 
+    return 42
+
 
 def _checking_data():
     print("Checking data")
@@ -59,7 +61,7 @@ with DAG(dag_id="simple_dag",
     waiting_for_data = FileSensor(
         task_id="waiting_for_data",
         fs_conn_id="fs_default",
-        filepath="my_data.txt",
+        filepath="my_file.txt",
         poke_interval=5,
     )
 
