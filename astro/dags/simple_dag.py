@@ -6,8 +6,9 @@ from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
 
 
-def _downloading_data(ds, **kwargs):
+def _downloading_data(my_param, ds, **kwargs):
     print("Just a test")
+    print(my_param)
     print(ds)
     print(kwargs)
 
@@ -37,4 +38,5 @@ with DAG(dag_id="simple_dag",
     downloading_data = PythonOperator(
         task_id="downloading_data",
         python_callable=_downloading_data,
+        op_kwargs={"my_param": 42},
     )
