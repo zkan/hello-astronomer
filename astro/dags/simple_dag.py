@@ -33,7 +33,10 @@ def _checking_data(ti):
 
 default_args = {
     "retry": 5,
-    "retry_delay": timedelta(minutes=5)
+    "retry_delay": timedelta(minutes=5),
+    "email_on_failure": True,
+    "email_on_retry": True,
+    "email": ["kan@odds.team"]
 }
 with DAG(dag_id="simple_dag",
          default_args=default_args,
